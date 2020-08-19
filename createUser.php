@@ -3,12 +3,22 @@ require('./BD/conexion.php'); //llama al archivo conexion y utiliza su variable 
 $mysqli = $con;
 
 if (!empty($_POST)) {
-
-    $_C01 = $_POST['C01'];    //faltan validaciones
-    $_C02 = $_POST['C02'];    //faltan validaciones
-    $_C03 = $_POST['C03'];    //faltan validaciones
-    $_C04 = $_POST['C04'];    //faltan validaciones
     
+    //validacion si el campo está completamente en blanco
+    if (  ((ctype_space($_POST['C01'])) == false ) && ((ctype_space($_POST['C02']))== false) && ((ctype_space($_POST['C03']))== false) && ((ctype_space($_POST['C04']))== false)    ) {
+    //puede mejorarse con un for each        
+
+        $_C01 = $_POST['C01'];    
+        $_C02 = $_POST['C02'];    
+        $_C03 = $_POST['C03'];    
+        $_C04 = $_POST['C04'];    
+        
+    } else {
+
+        echo 0;
+        mysqli_close($mysqli); //cerrar la conexion
+
+    }
 }
 
 $statement = $mysqli->prepare("CALL AñadirUsuario(?,?,?,?)"); //es la consulta preparada
@@ -20,4 +30,5 @@ if ($statement) {
     echo 0;
 }
 $statement->close();
-mysqli_close($mysqli); //cerrar lo conexion para seguridad
+mysqli_close($mysqli); //cerrar la conexion para seguridad
+?>

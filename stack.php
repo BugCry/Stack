@@ -13,14 +13,15 @@
 
     <div class="container">
 
-        <p>WEB V2.8</p>
+        <p>WEB V5.5 (now with jqBootstrapValidation! :D)</p>
 
         <form id="F01" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-5 control-group">
                     <label class="control-label">Nombre</label>
                     <div class="controls">
-                        <input type="text" class="form-control" id="C01" name="C01" required />
+                        <input type="text" class="form-control" id="C01" name="C01" pattern="^[0-9]{1,20}" data-validation-pattern-message="Se requiere un nombre valido" required="required" />
+                        <p class="text-danger help-block"></p>
                         <p class="help-block"></p>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                 <div class="form-group col-md-2">
                     <label class="control-label">Edad</label>
                     <div class="controls">
-                        <input type="number" class="form-control" id="C03" name="C03" required />
+                        <input type="number" class="form-control" id="C03" name="C03" pattern="[1-9]{3}" data-validation-pattern-message="Seleccione una edad Valida" required="required" />
                         <p class="help-block"></p>
                     </div>
                 </div>
@@ -46,32 +47,37 @@
                     <p class="help-block"></p>
                 </div>
             </div>
-            <input type="submit" name="Registro" value="Registrar Nuevo Usuario" class="btn btn-primary"></input>
+            <input type="submit" name="B01" id="B01" value="Registrar Nuevo Usuario" class="btn btn-primary"></input>
         </form>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.1/dist/sweetalert2.all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.6/jqBootstrapValidation.js"></script>
+  
+
+    <!--<script src="./Stack/Scripts/F01_create.js"></script>-->
+    <!--<script src="./Stack/Scripts/F01_createUser.js"></script>-->
+    <!--<script src="./Stack/Scripts/tutorial.js"></script>-->
+
 
     <script>
-        /*/
-        $(function() {
-            $('#F01').find("input,select,textarea").not("[type=submit]").jqBootstrapValidation({
+        $(document).ready(function() {
+
+            $('#F01 input, #F01 textarea').jqBootstrapValidation({
                 preventSubmit: true,
                 submitSuccess: function($form, event) {
                     event.preventDefault();
-                    //Prueba de datos enviados del formulario
-                    var datos = $('#F01').serialize();
-                    alert(datos);
-                    
+                    $this = $('#B01');
+                    $this.prop('disabled', true);
+                    var form_data = $("#F01").serialize();
                     $.ajax({
-                        type: 'POST', //método de envio
-                        url: 'createUse.php', //archivo que recibe la peticion
-                        data: $('#F01').serialize(), //datos que se envian a traves de ajax
+                        url: "createUser.php",
+                        method: "POST",
+                        data: form_data,
                         success: function(respuesta) {
                             if (respuesta == 1) {
                                 Swal.fire({
@@ -81,7 +87,7 @@
                                 });
                             } else {
                                 Swal.fire({
-                                    title: 'Oppsie',
+                                    title: 'Oppsie doopsie',
                                     text: 'Error al crear Usuario :C',
                                     icon: 'error',
                                 });
@@ -93,50 +99,19 @@
                                 html: jqXHR.responseText + '<b> Error al crear Usuario :C </b>',
                                 icon: 'error',
                             });
+                        },
+                        complete: function() {
+                            setTimeout(function() {
+                                $this.prop("disabled", false);
+                            }, );
                         }
                     });
-                }
+                },
             });
+
         });
-        /*/
-        $(document).ready(function() {
-            $('#F01').submit(function(e) {
-                e.preventDefault();
-                /*/ Prueba de datos enviados del formulario
-                var datos = $('#F01').serialize();
-                alert(datos);
-                /*/
-                $.ajax({
-                    type: 'POST', //método de envio1
-                    url: 'createUse.php', //archivo que recibe la peticion
-                    data: $('#F01').serialize(), //datos que se envian a traves de ajax
-                    success: function(respuesta) {
-                        if (respuesta == 1) {
-                            Swal.fire({
-                                title: 'Ok',
-                                text: 'Usuario Creado',
-                                icon: 'success',
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Oppsie doopsie',
-                                text: 'Error al crear Usuario :C',
-                                icon: 'error',
-                            });
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oppsie',
-                            html: jqXHR.responseText + '<b> Error al crear Usuario :C </b>',
-                        });
-                    }
-                });
-            });
-        });
-    
     </script>
+
 </body>
 
 </html>
