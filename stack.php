@@ -16,7 +16,7 @@
             <img src="load.svg" class="p-5 m-5 w-50 h-50" alt="">
         </div>
 
-        <div class="container">
+        <div class="container p-5">
 
             <p>WEB V6.6 (validations & loader :D let's see tables)</p>
 

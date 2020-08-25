@@ -3,7 +3,7 @@ $q = intval($_GET['q']);
 
 require('../BD/conexion.php'); //llama al archivo conexion y utiliza su variable $con para establecer una conexion con la DB
 
-$sql="SELECT * FROM ajax "; //consulta sql
+$sql="SELECT * FROM ajax WHERE id = '".$q."'"; //consulta sql
 $result = mysqli_query($con,$sql);
 
 echo "<div class='table table-striped table-bordered table-responsive'> <!--Se está enviando un codigo en html para generar el formulario-->
