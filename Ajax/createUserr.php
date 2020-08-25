@@ -1,14 +1,14 @@
 <?php
-require('./BD/conexion.php'); //llama al archivo conexion y utiliza su variable $con para establecer una conexion con la DB
+require('../BD/conexion.php'); //llama al archivo conexion y utiliza su variable $con para establecer una conexion con la DB
 $mysqli = $con;
 $validator = false;
 
 foreach ($_POST as $data) {
     if(empty($data)){
-        echo 0;
+        echo 01;
         
     }else if (ctype_space($data)){
-        echo 0;
+        echo 02;
         
     }else{
         $validator = true;
@@ -17,14 +17,14 @@ foreach ($_POST as $data) {
 
 if ($validator == true) {
 
-        $_C01 = trim($_POST['C01']);    
-        $_C02 = trim($_POST['C02']);    
-        $_C03 = trim($_POST['C03']);    
-        $_C04 = trim($_POST['C04']);    
+        $_C01 = $_POST['C01'];    
+        $_C02 = $_POST['C02'];    
+        $_C03 = $_POST['C03'];    
+        $_C04 = $_POST['C04'];    
         
     } else {
 
-        echo 0;
+        echo 03;
         
 
     }
@@ -35,7 +35,7 @@ $statement->execute();
 if (!$statement) {
     echo 1;
 } else {
-    echo 0;
+    echo 04;
     
 }
 sleep(2); //un parametro para que el proceso no sea instantaneo
